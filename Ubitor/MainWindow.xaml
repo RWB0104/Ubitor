@@ -9,17 +9,17 @@
 	xmlns:local="clr-namespace:Ubitor"
 	mc:Ignorable="d"
 	Title="Ubitor"
-	Height="450"
-	Width="555.808"
+	Height="351.18"
+	Width="551.725"
 	ResizeMode="NoResize"
 	BorderThickness="0"
 	GlowBrush="Black"
 	WindowTransitionsEnabled="False"
-	Loaded="MetroWindow_Loaded">
+	Loaded="MetroWindow_Loaded" WindowStartupLocation="CenterScreen" TitleCharacterCasing="Normal">
 
 	<mah:MetroWindow.LeftWindowCommands>
 		<mah:WindowCommands>
-			<Image  Width="22" Height="22" Margin="10px 0px 10px 0px" Source="1130789.png" />
+			<Image  Width="22" Height="22" Margin="10px 0px 10px 0px" Source="Ubitor.jpg" />
 		</mah:WindowCommands>
 	</mah:MetroWindow.LeftWindowCommands>
 
