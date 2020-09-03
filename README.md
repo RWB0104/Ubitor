@@ -28,6 +28,14 @@
 
 # RELEASE
 
+## Ubitor 1.1.0 RELEASE
+
+2020.09.03 목요일 Update
+
++ 프로토콜 미입력 시 HTTP 프로토콜 기본값으로 지정
++ Content-Length의 값이 없을 경우, 전체 퍼센트를 표시하지 않고 다운받은 용량만 표시하도록 수정
++ UI 및 내부 로직 개선
+
 ## Ubitor 1.0.0 RELEASE
 
 2020.08.26 화요일 Update
