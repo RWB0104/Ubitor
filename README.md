@@ -6,6 +6,10 @@
 
 네트워크 다운로더
 
+<p align="center">
+	<a href="https://github.com/RWB0104/Ubitor/releases">최신버전 다운로드</a>
+</p>
+
 # INFO
 
 개발언어 : `C#`

@@ -3,7 +3,6 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Net;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
@@ -189,56 +188,73 @@ namespace Ubitor
 			bool http = url.StartsWith("http://");
 			bool https = url.StartsWith("https://");
 			
-			// 유효한 통신 프로토콜일 경우
-			if (http || https)
+			// HTTP 혹은 HTTPS 프로토콜이 없을 경우
+			if (!(http || https))
 			{
-				HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-				request.Method = method;
-				request.UserAgent = agent;
+				url = "http://" + url;
+			}
 
-				// Referer가 유효하지 않을 경우
-				if (!string.IsNullOrEmpty(referer))
+			HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+			request.Method = method;
+			request.UserAgent = agent;
+
+			// Referer가 유효하지 않을 경우
+			if (!string.IsNullOrEmpty(referer))
+			{
+				request.Referer = referer;
+			}
+
+			string path = GetFilePath();
+
+			// 경로가 유효하지 않을 경우
+			if (path == null)
+			{
+				e.Cancel = true;
+			}
+
+			// 경로가 유효할 경우
+			else
+			{
+				HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+
+				Stream input = response.GetResponseStream();
+				FileStream output = new FileStream(path, FileMode.Create);
+
+				int length = 20480;
+
+				byte[] buffer = new byte[length];
+
+				double count = 0;
+
+				while (length != 0)
 				{
-					request.Referer = referer;
-				}
-
-				string path = GetFilePath();
-
-				// 경로가 유효하지 않을 경우
-				if (path == null)
-				{
-					e.Cancel = true;
-				}
-
-				// 경로가 유효할 경우
-				else
-				{
-					HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-
-					Stream input = response.GetResponseStream();
-					FileStream output = new FileStream(path, FileMode.Create);
-
-					int length = 20480;
-
-					byte[] buffer = new byte[length];
-
-					double count = 0;
-
-					while (length != 0)
+					// 쓰레드 취소 요청
+					if (worker.CancellationPending)
 					{
-						// 쓰레드 취소 요청
-						if (worker.CancellationPending)
+						e.Cancel = true;
+						break;
+					}
+
+					length = input.Read(buffer, 0, buffer.Length);
+					output.Write(buffer, 0, length);
+					output.Flush();
+
+					count += length;
+
+					// ContentLength가 정의되지 않았을 경우
+					if (response.ContentLength == -1)
+					{
+						Dispatcher.Invoke(DispatcherPriority.Normal, new Action(delegate
 						{
-							e.Cancel = true;
-							break;
-						}
+							Progress.IsIndeterminate = true;
+							Percent.Content = "";
+							Value.Content = DiskValue(count);
+						}));
+					}
 
-						length = input.Read(buffer, 0, buffer.Length);
-						output.Write(buffer, 0, length);
-						output.Flush();
-
-						count += length;
-
+					// ContentLength가 유효한 값을 가질 경우
+					else
+					{
 						double percent = count / response.ContentLength * 100;
 
 						Dispatcher.Invoke(DispatcherPriority.Normal, new Action(delegate
@@ -249,18 +265,9 @@ namespace Ubitor
 
 						worker.ReportProgress((int)(percent * 10000));
 					}
-
-					output.Close();
 				}
-			}
 
-			// 유효하지 않은 통신 프로토콜일 경우
-			else
-			{
-				Dispatcher.Invoke(DispatcherPriority.Normal, new Action(delegate
-				{
-					this.ShowModalMessageExternal("Error", "HTTP 혹은 HTTPS 프로토콜을 입력하세요.");
-				}));
+				output.Close();
 			}
 		}
 
@@ -347,6 +354,7 @@ namespace Ubitor
 			Value.Content = "";
 			Percent.Content = "";
 
+			Progress.IsIndeterminate = false;
 			Progress.Value = 0;
 
 			Send.Visibility = Visibility.Visible;

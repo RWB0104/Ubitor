@@ -6,11 +6,10 @@
 	xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
 	xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:local="clr-namespace:Ubitor"
 	mc:Ignorable="d"
 	Title="Ubitor"
-	Height="351.18"
-	Width="551.725"
+	Height="323.735"
+	Width="548.364"
 	ResizeMode="NoResize"
 	BorderThickness="0"
 	GlowBrush="Black"
@@ -42,7 +41,7 @@
 
 		<ProgressBar
 			x:Name="Progress"
-			Margin="22,25,-425,37"
+			Margin="22,20,-425,59"
 			Maximum="100"
 			Minimum="0"
 			Value="0"
@@ -51,14 +50,14 @@
 
 		<Label
 			x:Name="Value"
-			Margin="0,64,-425,10"
+			Margin="0,42,-425,32"
 			Height="27"
 			HorizontalAlignment="Right"
 			VerticalAlignment="Center" />
 
 		<Label
 			x:Name="Percent"
-			Margin="22,64,0,10"
+			Margin="22,42,0,32"
 			Height="27"
 			HorizontalAlignment="Left"
 			VerticalAlignment="Center"
@@ -71,7 +70,7 @@
 			BorderBrush="White"
 			FontFamily="Malgun Gothic"
 			FontSize="12"
-			Margin="22,111,-33,-47"
+			Margin="22,89,-33,-25"
 			Padding="10px "/>
 
 		<TextBox
@@ -79,8 +78,8 @@
 			ContextMenu="{x:Null}"
 			mah:TextBoxHelper.Watermark="URL"
 			FontFamily="Malgun Gothic"
-			Margin="22,167,-425,-103"
-			KeyDown="Enter_KeyDown" Padding="10px">
+			Margin="22,145,-425,-81"
+			KeyDown="Enter_KeyDown" Padding="7px">
 			<TextBox.Style>
 				<Style BasedOn="{StaticResource MahApps.Styles.TextBox}" TargetType="{x:Type TextBox}">
 					<Setter Property="mah:TextBoxHelper.ClearTextButton" Value="True" />
@@ -102,9 +101,33 @@
 			ContextMenu="{x:Null}"
 			mah:TextBoxHelper.Watermark="Referer"
 			FontFamily="Malgun Gothic"
-			Margin="22,214,-425,-150"
+			Margin="22,192,-425,-128"
 			KeyDown="Enter_KeyDown"
-			Padding="10px">
+			Padding="7px">
+			<TextBox.Style>
+				<Style BasedOn="{StaticResource MahApps.Styles.TextBox}" TargetType="{x:Type TextBox}">
+					<Setter Property="mah:TextBoxHelper.ClearTextButton" Value="True" />
+					<Style.Triggers>
+						<Trigger Property="mah:TextBoxHelper.HasText" Value="False">
+							<Setter Property="mah:TextBoxHelper.ClearTextButton" Value="False" />
+							<Setter Property="mah:TextBoxHelper.Watermark" Value="Now enter some text..." />
+						</Trigger>
+						<Trigger Property="mah:TextBoxHelper.HasText" Value="True">
+							<Setter Property="mah:TextBoxHelper.ClearTextButton" Value="True" />
+						</Trigger>
+					</Style.Triggers>
+				</Style>
+			</TextBox.Style>
+		</TextBox>
+
+		<TextBox
+			x:Name="Agent"
+			ContextMenu="{x:Null}"
+			mah:TextBoxHelper.Watermark="Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:35.0) Gecko/20100101 Firefox/35.0"
+			FontFamily="Malgun Gothic"
+			Margin="22,239,-425,-175"
+			KeyDown="Enter_KeyDown"
+			Padding="7px">
 			<TextBox.Style>
 				<Style BasedOn="{StaticResource MahApps.Styles.TextBox}" TargetType="{x:Type TextBox}">
 					<Setter Property="mah:TextBoxHelper.ClearTextButton" Value="True" />
@@ -124,7 +147,7 @@
 		<Button
 			x:Name="Send"
 			Content="SEND"
-			Margin="425,111,-425,-47"
+			Margin="425,89,-425,-25"
 			FontFamily="Malgun Gothic"
 			FontSize="15"
 			Style="{DynamicResource MahApps.Styles.Button.Square.Accent}"
@@ -146,30 +169,6 @@
 			BorderBrush="{x:Null}"
 			Background="#CCF50000"
 			Visibility="Collapsed" />
-
-		<TextBox
-			x:Name="Agent"
-			ContextMenu="{x:Null}"
-			mah:TextBoxHelper.Watermark="Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:35.0) Gecko/20100101 Firefox/35.0"
-			FontFamily="Malgun Gothic"
-			Margin="22,261,-425,-197"
-			KeyDown="Enter_KeyDown"
-			Padding="10px">
-			<TextBox.Style>
-				<Style BasedOn="{StaticResource MahApps.Styles.TextBox}" TargetType="{x:Type TextBox}">
-					<Setter Property="mah:TextBoxHelper.ClearTextButton" Value="True" />
-					<Style.Triggers>
-						<Trigger Property="mah:TextBoxHelper.HasText" Value="False">
-							<Setter Property="mah:TextBoxHelper.ClearTextButton" Value="False" />
-							<Setter Property="mah:TextBoxHelper.Watermark" Value="Now enter some text..." />
-						</Trigger>
-						<Trigger Property="mah:TextBoxHelper.HasText" Value="True">
-							<Setter Property="mah:TextBoxHelper.ClearTextButton" Value="True" />
-						</Trigger>
-					</Style.Triggers>
-				</Style>
-			</TextBox.Style>
-		</TextBox>
 	</Grid>
 
 </mah:MetroWindow>
